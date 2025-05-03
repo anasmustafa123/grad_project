@@ -8,7 +8,7 @@ class RoadmapsScreen extends StatelessWidget {
   
   const RoadmapsScreen({
     super.key,
-    this.totalSemesters = 8, // Default to 9 semesters (4 years + 1 semester)
+    this.totalSemesters = 9, // Default to 9 semesters (4 years + 1 semester)
   });
 
   // Sample data for subjects - you can replace this with your actual data
@@ -59,8 +59,8 @@ class RoadmapsScreen extends StatelessWidget {
                       itemCount: totalYears,
                       itemBuilder: (context, yearIndex) {
                         final year = yearIndex + 1;
-                        final isFirstYear = year == 1;
-                        final showSecondSemester = !isFirstYear || remainingSemesters == 0;
+                        final isLastYear = year == totalYears;
+                        final showSecondSemester = !isLastYear || remainingSemesters == 2;
                         
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

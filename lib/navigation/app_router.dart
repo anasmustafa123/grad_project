@@ -6,6 +6,9 @@ import '../screens/professors_screen.dart';
 import '../screens/departments_screen.dart';
 import '../screens/calendar_screen.dart';
 import '../screens/roadmaps_screen.dart';
+import '../screens/profile_screen.dart';
+import '../screens/help_screen.dart';
+import '../screens/about_screen.dart';
 
 class AppRouter {
   static const String loginRoute = '/login';
@@ -15,6 +18,9 @@ class AppRouter {
   static const String departmentsRoute = '/departments';
   static const String calendarRoute = '/calendar';
   static const String roadmapsRoute = '/roadmaps';
+  static const String profileRoute = '/profile';
+  static const String helpRoute = '/help';
+  static const String aboutRoute = '/about';
   
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -45,6 +51,18 @@ class AppRouter {
       case roadmapsRoute:
         return MaterialPageRoute(
           builder: (_) => const RoadmapsScreen(),
+        );
+      case profileRoute:
+        return MaterialPageRoute(
+          builder: (_) => const ProfileScreen(),
+        );
+      case helpRoute:
+        return MaterialPageRoute(
+          builder: (_) => const HelpScreen(),
+        );
+      case aboutRoute:
+        return MaterialPageRoute(
+          builder: (_) => const AboutScreen(),
         );
       default:
         return MaterialPageRoute(

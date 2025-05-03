@@ -10,7 +10,7 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  final List<String> _days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  final List<String> _days = ['Sat', 'Sun', 'Mon', 'Tues', 'Wedn', 'Thurs'];
   final List<String> _timeSlots = [
     '8:30 - 10:10',
     '10:20 - 12:00',
@@ -94,10 +94,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
           height: headerHeight,
           child: Row(
             children: [
+              // Fixed time column header
               Container(
                 width: timeColumnWidth,
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 decoration: BoxDecoration(
+                  color: Colors.white,
                   border: Border.all(color: const Color(0xFF104B63)),
                 ),
                 child: const Text(
@@ -109,6 +111,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                 ),
               ),
+              // Scrollable days header
               Expanded(
                 child: NotificationListener<ScrollNotification>(
                   onNotification: (ScrollNotification notification) {
@@ -125,6 +128,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         width: dayColumnWidth,
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         decoration: BoxDecoration(
+                          color: Colors.white,
                           border: Border.all(color: const Color(0xFF104B63)),
                         ),
                         child: Text(
@@ -145,59 +149,66 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
         // Days and grid
         Expanded(
-          child: NotificationListener<ScrollNotification>(
-            onNotification: (ScrollNotification notification) {
-              if (notification is ScrollUpdateNotification) {
-                _headerScrollController.jumpTo(notification.metrics.pixels);
-              }
-              return true;
-            },
-            child: SingleChildScrollView(
-              controller: _horizontalScrollController,
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Time column
-                  Column(
-                    children: _timeSlots.map((time) => Container(
-                      width: timeColumnWidth,
-                      height: slotHeight,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xFF104B63)),
-                      ),
-                      child: Center(
-                        child: Text(
-                          time,
-                          style: const TextStyle(
-                            color: Color(0xFF104B63),
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                    )).toList(),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Fixed time column
+              Column(
+                children: _timeSlots.map((time) => Container(
+                  width: timeColumnWidth,
+                  height: slotHeight,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: const Color(0xFF104B63)),
                   ),
-                  // Days columns
-                  ..._days.map((day) => Column(
-                    children: _timeSlots.map((time) => Container(
-                      width: dayColumnWidth,
-                      height: slotHeight,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xFF104B63)),
+                  child: Center(
+                    child: Text(
+                      time,
+                      style: const TextStyle(
+                        color: Color(0xFF104B63),
+                        fontSize: 12,
                       ),
-                      child: const Center(
-                        child: Text(
-                          '',
-                          style: TextStyle(
-                            color: Color(0xFF104B63),
-                          ),
-                        ),
-                      ),
-                    )).toList(),
-                  )),
-                ],
+                    ),
+                  ),
+                )).toList(),
               ),
-            ),
+              // Scrollable days columns
+              Expanded(
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification notification) {
+                    if (notification is ScrollUpdateNotification) {
+                      _headerScrollController.jumpTo(notification.metrics.pixels);
+                    }
+                    return true;
+                  },
+                  child: SingleChildScrollView(
+                    controller: _horizontalScrollController,
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: _days.map((day) => Column(
+                        children: _timeSlots.map((time) => Container(
+                          width: dayColumnWidth,
+                          height: slotHeight,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: const Color(0xFF104B63)),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              '',
+                              style: TextStyle(
+                                color: Color(0xFF104B63),
+                              ),
+                            ),
+                          ),
+                        )).toList(),
+                      )).toList(),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

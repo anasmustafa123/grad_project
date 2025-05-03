@@ -34,9 +34,9 @@ class NavigationIcons extends StatelessWidget {
           },
         ),
         IconButton(
-          icon: const Icon(Icons.android, color: Colors.white, size: 30),
+          icon: const Icon(Icons.map, color: Colors.white, size: 30),
           onPressed: () {
-            // TODO: Navigate to road
+            Navigator.pushNamed(context, AppRouter.roadmapsRoute);
           },
         ),
       ],

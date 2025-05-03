@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../navigation/app_router.dart';
 
 class SupportButton extends StatelessWidget {
   const SupportButton({super.key});
@@ -7,7 +8,7 @@ class SupportButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        // TODO: Navigate to support page
+        Navigator.pushNamed(context, AppRouter.helpRoute);
       },
       child: const Text(
         'Support',
