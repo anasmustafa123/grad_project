@@ -18,7 +18,7 @@ class NavigationIcons extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.location_on, color: Colors.white, size: 30),
           onPressed: () {
-            // TODO: Navigate to map
+            Navigator.pushNamed(context, AppRouter.searchRoute);
           },
         ),
         IconButton(

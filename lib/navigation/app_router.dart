@@ -6,6 +6,9 @@ import '../screens/professors_screen.dart';
 import '../screens/departments_screen.dart';
 import '../screens/calendar_screen.dart';
 import '../screens/roadmaps_screen.dart';
+import '../screens/search_page.dart';
+import '../screens/indoor_view_page.dart';
+
 
 class AppRouter {
   static const String loginRoute = '/login';
@@ -15,7 +18,10 @@ class AppRouter {
   static const String departmentsRoute = '/departments';
   static const String calendarRoute = '/calendar';
   static const String roadmapsRoute = '/roadmaps';
-  
+  static const String searchRoute = '/search';
+  static const String indoorViewRoute = '/indoor-view';
+
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case loginRoute:
@@ -46,6 +52,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const RoadmapsScreen(),
         );
+      case searchRoute:
+        return MaterialPageRoute(builder: (_) => const SearchPage());
+      case indoorViewRoute:
+        return MaterialPageRoute(builder: (_) => const IndoorViewPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
