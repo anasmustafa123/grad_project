@@ -13,11 +13,11 @@ class ProfileScreen extends StatelessWidget {
       'name': 'zaynab',
       'email': 'john.doe@example.com',
       'studentId': '2023001',
-      'semester': '3rd Semester',
+      'semester': '9rd Semester',
       'major': 'CCE',
       'enrollmentDate': 'Fall 2023',
-      'gpa': '3.8',
-      'attendance': '95%',
+      'gpa': '2.8',
+      'attendance': '65%',
       'courses': ['CS101', 'MATH101', 'PHYS101'],
     };
 
