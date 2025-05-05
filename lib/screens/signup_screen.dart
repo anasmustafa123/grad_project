@@ -53,7 +53,7 @@ class _SignupScreenState extends State<SignupScreen> {
             const HeaderWidget(),
             Expanded(
               child: SingleChildScrollView(
-                child: Container(
+                child: SizedBox(
                   key: const Key('signup'),
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.7,
