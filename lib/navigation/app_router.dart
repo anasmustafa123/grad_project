@@ -1,3 +1,4 @@
+// lib/navigation/app_router.dart
 import 'package:flutter/material.dart';
 import '../screens/login_screen.dart';
 import '../screens/signup_screen.dart';
@@ -12,6 +13,7 @@ import '../screens/about_screen.dart';
 import '../screens/search_page.dart';
 import '../screens/indoor_view_page.dart';
 
+import '../screens/chatbot_screen.dart'; // import the new screen
 
 class AppRouter {
   static const String loginRoute = '/login';
@@ -27,6 +29,8 @@ class AppRouter {
   static const String searchRoute = '/search';
   static const String indoorViewRoute = '/indoor-view';
 
+
+  static const String chatbotRoute = '/chatbot'; // new route constant
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -74,14 +78,18 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const AboutScreen(),
         );
+      case chatbotRoute:
+        return MaterialPageRoute(
+          builder: (_) => const ChatbotScreen(),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
             body: Center(
-              child: Text('No route defined for ${settings.name}'),
+              child: Text('No route defined for \${settings.name}'),
             ),
           ),
         );
     }
   }
-} 
+}

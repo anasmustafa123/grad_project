@@ -18,7 +18,7 @@ class NavigationIcons extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.location_on, color: Colors.white, size: 30),
           onPressed: () {
-            Navigator.pushNamed(context, AppRouter.searchRoute);
+             Navigator.pushNamed(context, AppRouter.searchRoute);
           },
         ),
         IconButton(
@@ -30,7 +30,7 @@ class NavigationIcons extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.chat_bubble, color: Colors.white, size: 30),
           onPressed: () {
-            // TODO: Navigate to bot
+            Navigator.pushNamed(context, AppRouter.chatbotRoute);
           },
         ),
         IconButton(
