@@ -17,6 +17,7 @@ class _IndoorViewPageState extends State<IndoorViewPage> {
   final TextEditingController _controller = TextEditingController();
   final String _svgAsset = 'assets/002-000.svg';
   String _highlightedSvg = '';
+  String _currentRoomInfo = '';
   TransformationController _transformationController = TransformationController();
   double _currentScale = 1.0;
   Offset _currentPosition = Offset.zero;
@@ -58,6 +59,14 @@ class _IndoorViewPageState extends State<IndoorViewPage> {
           SnackBar(content: Text('Room with ID starting "$prefix" not found')),
         );
         return;
+      }
+
+      final id = target.getAttribute('id') ?? '';
+      final parts = id.split('-');
+      if (parts.length >= 3) {
+        setState(() {
+          _currentRoomInfo = 'Room ${parts[0]} Floor ${parts[2]} Building ${parts[1]}';
+        });
       }
 
       final style = target.getAttribute('style');
@@ -165,6 +174,20 @@ class _IndoorViewPageState extends State<IndoorViewPage> {
               ),
             ),
           ),
+
+          // Room Information Display
+          if (_currentRoomInfo.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Text(
+                _currentRoomInfo,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal,
+                ),
+              ),
+            ),
 
           // SVG Viewer + Zoom Controls
           Expanded(
