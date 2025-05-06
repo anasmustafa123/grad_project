@@ -234,6 +234,21 @@ class _IndoorViewPageState extends State<IndoorViewPage> {
                         const SizedBox(width: 20),
                         ElevatedButton(
                           onPressed: () {
+                            setState(() {
+                              _currentScale = 1.0;
+                              _transformationController.value = Matrix4.identity();
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            padding: const EdgeInsets.all(14),
+                            backgroundColor: Colors.teal,
+                          ),
+                          child: const Icon(Icons.center_focus_strong, color: Colors.white),
+                        ),
+                        const SizedBox(width: 20),
+                        ElevatedButton(
+                          onPressed: () {
                             final Matrix4 matrix = _transformationController.value;
                             final Offset center = Offset(_viewSize.width / 2, _viewSize.height / 2);
                             final Offset focalPoint = Offset(
