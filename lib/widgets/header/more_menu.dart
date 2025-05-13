@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../navigation/app_router.dart';
 
@@ -39,8 +40,12 @@ class MoreMenu extends StatelessWidget {
           value: 'about',
           child: Text('About'),
         ),
+        const PopupMenuItem<String>(
+          value: 'logout',
+          child: Text('Logout'),
+        ),
       ],
-      onSelected: (String value) {
+      onSelected:  (String value) async {
         // Handle menu item selection
         switch (value) {
           case 'profile':
@@ -51,6 +56,11 @@ class MoreMenu extends StatelessWidget {
             break;
           case 'about':
             Navigator.pushNamed(context, AppRouter.aboutRoute);
+            break;
+          case 'logout':
+            await FirebaseAuth.instance.signOut();
+            Navigator.pushNamedAndRemoveUntil(context, AppRouter.signupRoute, (route) => false);
+            // Navigator.pushNamed(context, AppRouter.signupRoute);
             break;
         }
       },

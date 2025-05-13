@@ -1,6 +1,6 @@
-// lib/screens/chatbot_screen.dart
 import 'package:flutter/material.dart';
 import 'home/components/navigation_icons.dart';
+import '../widgets/header/header_widget.dart';
 
 class ChatbotScreen extends StatefulWidget {
   const ChatbotScreen({super.key});
@@ -43,11 +43,9 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chatbot', style: TextStyle(fontSize: 22)),
-      ),
       body: Column(
         children: [
+          const HeaderWidget(),
           // chat messages list
           Expanded(
             child: ListView.builder(
@@ -134,9 +132,17 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
               ),
             ),
           ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 80,
+            decoration: const BoxDecoration(
+              color: Color(0xFFA5D7C2),
+            ),
+            child: const NavigationIcons(),
+          ),
         ],
       ),
-      bottomNavigationBar: const NavigationIcons(),
+      // bottomNavigationBar: const NavigationIcons(),
     );
   }
 }
