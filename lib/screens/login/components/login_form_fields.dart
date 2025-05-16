@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 
 class LoginFormFields extends StatefulWidget {
-  final TextEditingController usernameController;
+  final TextEditingController emailController;
   final TextEditingController passwordController;
   final bool isPasswordVisible;
   final Function(bool) onPasswordVisibilityChanged;
   final GlobalKey<FormState> formKey;
+  final FormFieldValidator<String>? emailValidator;
+  final FormFieldValidator<String>? passwordValidator;
+
 
   const LoginFormFields({
     super.key,
-    required this.usernameController,
+    required this.emailController,
     required this.passwordController,
     required this.isPasswordVisible,
     required this.onPasswordVisibilityChanged,
     required this.formKey,
+    this.emailValidator,
+    this.passwordValidator,
   });
 
   @override
@@ -40,7 +45,8 @@ class _LoginFormFieldsState extends State<LoginFormFields> {
           ),
           const SizedBox(height: 30),
           TextFormField(
-            controller: widget.usernameController,
+            controller: widget.emailController,
+            validator: widget.emailValidator,
             autofocus: true,
             decoration: InputDecoration(
               labelText: 'Email',
@@ -54,16 +60,17 @@ class _LoginFormFieldsState extends State<LoginFormFields> {
             ),
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email';
-              }
-              return null;
-            },
+            // validator: (value) {
+            //   if (value == null || value.isEmpty) {
+            //     return 'Please enter your email';
+            //   }
+            //   return null;
+            // },
           ),
           const SizedBox(height: 20),
           TextFormField(
             controller: widget.passwordController,
+            validator: widget.passwordValidator,
             decoration: InputDecoration(
               labelText: 'Password',
               hintText: 'Enter your password',
@@ -86,12 +93,12 @@ class _LoginFormFieldsState extends State<LoginFormFields> {
               ),
             ),
             obscureText: !widget.isPasswordVisible,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your password';
-              }
-              return null;
-            },
+            // validator: (value) {
+            //   if (value == null || value.isEmpty) {
+            //     return 'Please enter your password';
+            //   }
+            //   return null;
+            // },
           ),
         ],
       ),

@@ -8,6 +8,10 @@ class SignupFormFields extends StatefulWidget {
   final bool isPasswordVisible;
   final Function(bool) onPasswordVisibilityChanged;
   final GlobalKey<FormState> formKey;
+  final FormFieldValidator<String>? usernameValidator;
+  final FormFieldValidator<String>? emailValidator;
+  final FormFieldValidator<String>? passwordValidator;
+  final FormFieldValidator<String>? confirmPasswordValidator;
 
   const SignupFormFields({
     super.key,
@@ -18,6 +22,10 @@ class SignupFormFields extends StatefulWidget {
     required this.isPasswordVisible,
     required this.onPasswordVisibilityChanged,
     required this.formKey,
+    this.usernameValidator,
+    this.emailValidator,
+    this.passwordValidator,
+    this.confirmPasswordValidator,
   });
 
   @override
@@ -25,6 +33,7 @@ class SignupFormFields extends StatefulWidget {
 }
 
 class _SignupFormFieldsState extends State<SignupFormFields> {
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -45,6 +54,7 @@ class _SignupFormFieldsState extends State<SignupFormFields> {
           const SizedBox(height: 40),
           TextFormField(
             controller: widget.usernameController,
+            validator: widget.usernameValidator,
             autofocus: true,
             decoration: InputDecoration(
               labelText: 'Username',
@@ -59,16 +69,11 @@ class _SignupFormFieldsState extends State<SignupFormFields> {
             textInputAction: TextInputAction.next,
             enableSuggestions: false,
             autocorrect: false,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your username';
-              }
-              return null;
-            },
           ),
           const SizedBox(height: 16),
           TextFormField(
             controller: widget.emailController,
+            validator: widget.emailValidator,
             decoration: InputDecoration(
               labelText: 'Email',
               hintText: 'email',
@@ -80,16 +85,11 @@ class _SignupFormFieldsState extends State<SignupFormFields> {
             ),
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email';
-              }
-              return null;
-            },
           ),
           const SizedBox(height: 16),
           TextFormField(
             controller: widget.passwordController,
+            validator: widget.passwordValidator,
             decoration: InputDecoration(
               labelText: 'Password',
               border: OutlineInputBorder(
@@ -109,16 +109,11 @@ class _SignupFormFieldsState extends State<SignupFormFields> {
               ),
             ),
             obscureText: !widget.isPasswordVisible,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your password';
-              }
-              return null;
-            },
           ),
           const SizedBox(height: 16),
           TextFormField(
             controller: widget.confirmPasswordController,
+            validator: widget.confirmPasswordValidator,
             decoration: InputDecoration(
               labelText: 'Confirm Password',
               border: OutlineInputBorder(
@@ -138,15 +133,6 @@ class _SignupFormFieldsState extends State<SignupFormFields> {
               ),
             ),
             obscureText: !widget.isPasswordVisible,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please confirm your password';
-              }
-              if (value != widget.passwordController.text) {
-                return 'Passwords do not match';
-              }
-              return null;
-            },
           ),
         ],
       ),

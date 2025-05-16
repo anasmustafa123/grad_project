@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../widgets/header/header_widget.dart';
-import '../widgets/footer/footer_widget.dart';
 import 'home/components/navigation_icons.dart';
 import 'departments/components/department_card.dart';
 import 'departments/components/department_filter_menu.dart';

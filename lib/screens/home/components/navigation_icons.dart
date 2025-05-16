@@ -18,7 +18,7 @@ class NavigationIcons extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.location_on, color: Colors.white, size: 30),
           onPressed: () {
-            // TODO: Navigate to map
+             Navigator.pushNamed(context, AppRouter.searchRoute);
           },
         ),
         IconButton(
@@ -30,13 +30,13 @@ class NavigationIcons extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.chat_bubble, color: Colors.white, size: 30),
           onPressed: () {
-            // TODO: Navigate to bot
+            Navigator.pushNamed(context, AppRouter.chatbotRoute);
           },
         ),
         IconButton(
-          icon: const Icon(Icons.android, color: Colors.white, size: 30),
+          icon: const Icon(Icons.map, color: Colors.white, size: 30),
           onPressed: () {
-            // TODO: Navigate to road
+            Navigator.pushNamed(context, AppRouter.roadmapsRoute);
           },
         ),
       ],

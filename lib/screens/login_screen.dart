@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../utils/validate.dart';
 import '../widgets/header/header_widget.dart';
 import '../widgets/footer/footer_widget.dart';
 import 'login/components/login_form_fields.dart';
 import 'login/components/login_actions.dart';
 import '../navigation/app_router.dart';
-import '../widgets/buttons/login_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,21 +16,54 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
     // Bypass authentication and go directly to home page
-    Navigator.pushReplacementNamed(context, AppRouter.homeRoute);
+    if (_formKey.currentState!.validate()) {
+      try {
+        await loginUserWithEmailAndPassword();
+        Navigator.pushReplacementNamed(context, AppRouter.homeRoute);
+      } on FirebaseAuthException catch (e) {
+        String errorMessage;
+        errorMessage = e.code;
+        if (e.code == 'invalid-credential') {
+          errorMessage = 'Invalid Email or Password';
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('An unexpected error occurred.')),
+        );
+      }
+    }
   }
+
+
+  Future<void> loginUserWithEmailAndPassword() async {
+      final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text.trim(), password: _passwordController.text.trim()
+      );
+      print(userCredential);
+  }
+
+  // Future<void> createUserWithEmailAndPassword() async{
+  //   final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+  //       email: _emailController.text.trim(), password: _passwordController.text.trim()
+  //   );
+  //   print(userCredential);
+  // }
 
   void _handleForgotPassword() {
     // TODO: Navigate to forgot password screen
@@ -60,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         LoginFormFields(
-                          usernameController: _usernameController,
+                          emailController: _emailController,
                           passwordController: _passwordController,
                           isPasswordVisible: _isPasswordVisible,
                           onPasswordVisibilityChanged: (isVisible) {
@@ -69,6 +103,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             });
                           },
                           formKey: _formKey,
+                          emailValidator: Validators.validateEmail,
+                          passwordValidator: Validators.validatePassword,
                         ),
                         LoginActions(
                           onLoginPressed: _handleLogin,

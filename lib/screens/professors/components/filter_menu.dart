@@ -41,7 +41,7 @@ class _FilterMenuState extends State<FilterMenu> {
             value: department,
             child: Text(department),
           );
-        }).toList(),
+        }),
       ],
     );
   }

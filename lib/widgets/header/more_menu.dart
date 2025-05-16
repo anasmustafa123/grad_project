@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../navigation/app_router.dart';
 
 class MoreMenu extends StatelessWidget {
   const MoreMenu({super.key});
@@ -11,17 +13,25 @@ class MoreMenu extends StatelessWidget {
         children: const [
           Text(
             'More',
-            style: TextStyle(color: Color(0xFF1F566D)),
+            style: TextStyle(
+              color: Color(0xFF2E7D32),
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           SizedBox(width: 4),
           Icon(
             Icons.arrow_drop_down,
-            color: Color(0xFF1F566D),
+            color: Color(0xFF2E7D32),
             size: 20,
           ),
         ],
       ),
       itemBuilder: (BuildContext context) => [
+        const PopupMenuItem<String>(
+          value: 'profile',
+          child: Text('Profile'),
+        ),
         const PopupMenuItem<String>(
           value: 'settings',
           child: Text('Settings'),
@@ -31,21 +41,26 @@ class MoreMenu extends StatelessWidget {
           child: Text('About'),
         ),
         const PopupMenuItem<String>(
-          value: 'help',
-          child: Text('Help'),
+          value: 'logout',
+          child: Text('Logout'),
         ),
       ],
-      onSelected: (String value) {
+      onSelected:  (String value) async {
         // Handle menu item selection
         switch (value) {
+          case 'profile':
+            Navigator.pushNamed(context, AppRouter.profileRoute);
+            break;
           case 'settings':
             // TODO: Navigate to settings
             break;
           case 'about':
-            // TODO: Navigate to about
+            Navigator.pushNamed(context, AppRouter.aboutRoute);
             break;
-          case 'help':
-            // TODO: Navigate to help
+          case 'logout':
+            await FirebaseAuth.instance.signOut();
+            Navigator.pushNamedAndRemoveUntil(context, AppRouter.signupRoute, (route) => false);
+            // Navigator.pushNamed(context, AppRouter.signupRoute);
             break;
         }
       },
