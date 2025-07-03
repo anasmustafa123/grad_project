@@ -1,0 +1,384 @@
+name: room 1
+building: 002
+floor: 000
+type: class
+x: 149
+y: 627
+
+name: room 2
+building: 002
+floor: 000
+type: class
+x: 72
+y: 638
+
+name: room 3
+building: 002
+floor: 000
+type: class
+x: 72
+y: 599
+
+name: room 4
+building: 002
+floor: 000
+type: class
+x: 138
+y: 587
+
+name: room 5
+building: 002
+floor: 000
+type: class
+x: 243
+y: 578
+
+name: room 6
+building: 002
+floor: 000
+type: class
+x: 294
+y: 578
+
+name: room 7
+building: 002
+floor: 000
+type: class
+x: 345
+y: 578
+
+name: room 8
+building: 002
+floor: 000
+type: class
+x: 395
+y: 578
+
+name: room 9
+building: 002
+floor: 000
+type: class
+x: 436
+y: 597
+
+name: room 10
+building: 002
+floor: 000
+type: class
+x: 581
+y: 597
+
+name: room 11
+building: 002
+floor: 000
+type: class
+x: 621
+y: 578
+
+name: room 12
+building: 002
+floor: 000
+type: class
+x: 672
+y: 578
+
+name: room 13
+building: 002
+floor: 000
+type: class
+x: 723
+y: 578
+
+name: room 14
+building: 002
+floor: 000
+type: class
+x: 773
+y: 578
+
+name: room 15
+building: 002
+floor: 000
+type: class
+x: 823
+y: 578
+
+name: room 16
+building: 002
+floor: 000
+type: class
+x: 858
+y: 578
+
+name: room 17
+building: 002
+floor: 000
+type: class
+x: 879
+y: 587
+
+name: room 18
+building: 002
+floor: 000
+type: class
+x: 868
+y: 627
+
+name: room 19
+building: 002
+floor: 000
+type: class
+x: 944
+y: 639
+
+name: room 20
+building: 002
+floor: 000
+type: class
+x: 944
+y: 599
+
+name: room 21
+building: 002
+floor: 000
+type: class
+x: 975
+y: 538
+
+name: room 22
+building: 002
+floor: 000
+type: class
+x: 951
+y: 485
+
+name: room 23
+building: 002
+floor: 000
+type: class
+x: 952
+y: 392
+
+name: room 24
+building: 002
+floor: 000
+type: class
+x: 41
+y: 538
+
+name: room 25
+building: 002
+floor: 000
+type: class
+x: 65
+y: 485
+
+name: room 26
+building: 002
+floor: 000
+type: class
+x: 65
+y: 392
+
+name: room 27
+building: 002
+floor: 000
+type: class
+x: 61
+y: 291
+
+name: room 28
+building: 002
+floor: 000
+type: class
+x: 159
+y: 291
+
+name: room 29
+building: 002
+floor: 000
+type: class
+x: 156
+y: 392
+
+name: room 30
+building: 002
+floor: 000
+type: class
+x: 53
+y: 219
+
+name: room 31
+building: 002
+floor: 000
+type: class
+x: 167
+y: 217
+
+name: room 32
+building: 002
+floor: 000
+type: class
+x: 110
+y: 166
+
+name: room 33
+building: 002
+floor: 000
+type: class
+x: 401
+y: 214
+
+name: room 34
+building: 002
+floor: 000
+type: class
+x: 442
+y: 212
+
+name: room 35
+building: 002
+floor: 000
+type: class
+x: 439
+y: 283
+
+name: room 36
+building: 002
+floor: 000
+type: class
+x: 574
+y: 212
+
+name: room 37
+building: 002
+floor: 000
+type: class
+x: 577
+y: 284
+
+name: room 38
+building: 002
+floor: 000
+type: class
+x: 615
+y: 214
+
+name: room 39
+building: 002
+floor: 000
+type: class
+x: 508
+y: 386
+
+name: room 40
+building: 002
+floor: 000
+type: class
+x: 833
+y: 498
+
+name: room 41
+building: 002
+floor: 000
+type: class
+x: 873
+y: 485
+
+name: room 42
+building: 002
+floor: 000
+type: class
+x: 860
+y: 392
+
+name: room 43
+building: 002
+floor: 000
+type: class
+x: 861
+y: 291
+
+name: room 44
+building: 002
+floor: 000
+type: class
+x: 951
+y: 291
+
+name: room 45
+building: 002
+floor: 000
+type: class
+x: 963
+y: 219
+
+name: room 46
+building: 002
+floor: 000
+type: class
+x: 849
+y: 216
+
+name: room 47
+building: 002
+floor: 000
+type: class
+x: 907
+y: 166
+
+name: room 48
+building: 002
+floor: 000
+type: class
+x: 655
+y: 494
+
+name: room 49
+building: 002
+floor: 000
+type: class
+x: 574
+y: 479
+
+name: room 50
+building: 002
+floor: 000
+type: class
+x: 444
+y: 479
+
+name: room 51
+building: 002
+floor: 000
+type: class
+x: 361
+y: 494
+
+name: room 52
+building: 002
+floor: 000
+type: class
+x: 184
+y: 494
+
+name: room 53
+building: 002
+floor: 000
+type: class
+x: 144
+y: 482
+
+name: room 54
+building: 002
+floor: 000
+type: class
+x: 193
+y: 579
+
+name: room 55
+building: 002
+floor: 000
+type: class
+x: 158
+y: 575
