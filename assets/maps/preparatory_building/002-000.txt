@@ -8,28 +8,28 @@ y: 627
 name: room 2
 building: 002
 floor: 000
-type: class
+type: office
 x: 72
 y: 638
 
 name: room 3
 building: 002
 floor: 000
-type: class
+type: laboratory
 x: 72
 y: 599
 
 name: room 4
 building: 002
 floor: 000
-type: class
+type: women bathroom
 x: 138
 y: 587
 
 name: room 5
 building: 002
 floor: 000
-type: class
+type: men bathroom
 x: 243
 y: 578
 

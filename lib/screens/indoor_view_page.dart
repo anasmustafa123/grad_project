@@ -7,6 +7,7 @@ import 'package:xml/xml.dart';
 import '../../widgets/header/header_widget.dart';
 import '../../screens/home/components/navigation_icons.dart';
 import 'package:flutter/foundation.dart';
+import 'package:collection/collection.dart';
 
 // Marker class moved to top level
 class Marker {
@@ -287,35 +288,131 @@ class _IndoorViewPageState extends State<IndoorViewPage> with SingleTickerProvid
   Future<void> _searchAndHighlightMarker(String query) async {
     final indexString = await rootBundle.loadString('assets/markers_index.txt');
     final lines = indexString.split('\n').where((l) => l.trim().isNotEmpty).toList();
-    String? foundLine;
+    // Collect all matching lines
+    final List<String> matchingLines = [];
     for (final line in lines) {
       final parts = line.split('-');
       if (parts.length >= 3) {
         final markerName = parts.sublist(2).join('-').toLowerCase().trim();
-        if (markerName == query.toLowerCase().trim()) {
-          foundLine = line;
-          break;
+        if (markerName.contains(query.toLowerCase().trim())) {
+          matchingLines.add(line);
         }
       }
     }
-    if (foundLine == null) {
+    if (matchingLines.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('No marker found for "$query"')),
       );
       return;
     }
+    if (matchingLines.length == 1) {
+      await _highlightAndShowMarkerFromLine(matchingLines.first);
+      return;
+    }
+    // Multiple matches: show a dialog to pick one
+    showDialog(
+      context: context,
+      builder: (context) {
+        final ScrollController _dialogScrollController = ScrollController();
+        return Dialog(
+          insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+          child: Container(
+            width: 400,
+            constraints: const BoxConstraints(maxHeight: 500),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'Multiple results found',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+                const Divider(height: 1),
+                // Up arrow button
+                IconButton(
+                  icon: const Icon(Icons.keyboard_arrow_up),
+                  tooltip: 'Scroll up',
+                  onPressed: () {
+                    final newOffset = (_dialogScrollController.offset - 100).clamp(
+                      0.0,
+                      _dialogScrollController.position.maxScrollExtent,
+                    );
+                    _dialogScrollController.animateTo(
+                      newOffset,
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeOut,
+                    );
+                  },
+                ),
+                Expanded(
+                  child: Scrollbar(
+                    thumbVisibility: true,
+                    trackVisibility: true,
+                    thickness: 12.0,
+                    radius: Radius.circular(8),
+                    child: ListView.separated(
+                      controller: _dialogScrollController,
+                      itemCount: matchingLines.length,
+                      separatorBuilder: (context, idx) => const Divider(),
+                      itemBuilder: (context, idx) {
+                        final line = matchingLines[idx];
+                        final parts = line.split('-');
+                        final markerName = parts.sublist(2).join('-').trim();
+                        return ListTile(
+                          title: Text(markerName),
+                          onTap: () async {
+                            Navigator.of(context).pop();
+                            await _highlightAndShowMarkerFromLine(line);
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                // Down arrow button
+                IconButton(
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  tooltip: 'Scroll down',
+                  onPressed: () {
+                    final newOffset = (_dialogScrollController.offset + 100).clamp(
+                      0.0,
+                      _dialogScrollController.position.maxScrollExtent,
+                    );
+                    _dialogScrollController.animateTo(
+                      newOffset,
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeOut,
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _highlightAndShowMarkerFromLine(String foundLine) async {
     // Parse building, floor, and marker name
     final parts = foundLine.split('-');
     final building = parts[0].trim();
     final floor = parts[1].trim();
     final markerName = parts.sublist(2).join('-').trim();
+    // Find building and floor names from codes
+    String? buildingName = _buildingCodes.entries.firstWhereOrNull((e) => e.value == building)?.key;
+    buildingName ??= 'preparatory'; // fallback
+    String? floorName = _floorCodes[buildingName]?.entries.firstWhereOrNull((e) => e.value == floor)?.key;
+    floorName ??= 'ground'; // fallback
     // Load the SVG
-    final svgPath = 'assets/maps/preparatory_building/$building-$floor.svg';
+    final svgPath = _getSvgAssetForSelection(buildingName, floorName);
     // Load markers for the new map
-    await _loadSvgForSelection('preparatory', 'ground');
+    await _loadSvgForSelection(buildingName, floorName);
     String rawSvg;
     try {
-      rawSvg = await rootBundle.loadString(svgPath);
+      rawSvg = await rootBundle.loadString(svgPath!);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('SVG not found for $building-$floor')),
@@ -353,13 +450,60 @@ class _IndoorViewPageState extends State<IndoorViewPage> with SingleTickerProvid
       }
       setState(() {
         _highlightedSvg = document.toXmlString(pretty: true);
-        _selectedBuilding = 'preparatory';
-        _selectedFloor = 'ground';
+        _selectedBuilding = buildingName;
+        _selectedFloor = floorName;
         _highlightedMarkerId = targetId;
       });
-      // Animate the marker
       _markerAnimationController?.reset();
       _markerAnimationController?.repeat(reverse: true);
+
+      // --- Zoom and center on the marker ---
+      Marker? marker;
+      try {
+        marker = _markers.firstWhere(
+          (m) => m.name.trim().toLowerCase() == markerName.toLowerCase(),
+        );
+      } catch (e) {
+        marker = null;
+      }
+      if (marker != null && _viewSize != Size.zero) {
+        double svgWidth = 1024.0;
+        double svgHeight = 768.0;
+        double boxWidth = _viewSize.width;
+        double boxHeight = _viewSize.height;
+        double scale, offsetX = 0, offsetY = 0;
+        double aspectRatioSvg = svgWidth / svgHeight;
+        double aspectRatioBox = boxWidth / boxHeight;
+        if (aspectRatioBox > aspectRatioSvg) {
+          scale = boxHeight / svgHeight;
+          double usedWidth = svgWidth * scale;
+          offsetX = (boxWidth - usedWidth) / 2;
+          offsetY = 0;
+        } else {
+          scale = boxWidth / svgWidth;
+          double usedHeight = svgHeight * scale;
+          offsetX = 0;
+          offsetY = (boxHeight - usedHeight) / 2;
+        }
+        double markerWidgetX = marker.x * scale + offsetX;
+        double markerWidgetY = marker.y * scale + offsetY;
+        double desiredScale = 2.0;
+        final Offset center = Offset(boxWidth / 2, boxHeight / 2);
+        final Offset newPosition = Offset(
+          center.dx - markerWidgetX * desiredScale,
+          center.dy - markerWidgetY * desiredScale,
+        );
+        setState(() {
+          _currentScale = desiredScale;
+          _transformationController.value = Matrix4.identity()
+            ..translate(newPosition.dx, newPosition.dy)
+            ..scale(desiredScale);
+        });
+      }
+      // --- End zoom and center ---
+      if (marker != null) {
+        _showMarkerDetails(marker);
+      }
     }
   }
 
@@ -610,15 +754,15 @@ class _IndoorViewPageState extends State<IndoorViewPage> with SingleTickerProvid
                                         }
                                         double markerLeft = marker.x * scale + offsetX - markerSize / 2;
                                         double markerTop = marker.y * scale + offsetY - markerSize / 2;
-                                        final markerId = '002-000-${marker.name.trim()}';
+                                        final markerId = '${marker.building}-${marker.floor}-${marker.name.trim()}';
                                         Widget markerWidget = GestureDetector(
                                           onTap: () async {
                                             // Highlight the room in the SVG
                                             _controller.text = marker.name.trim();
-                                            final svgPath = 'assets/maps/preparatory_building/002-000.svg';
+                                            final svgPath = _getSvgAssetForSelection(_selectedBuilding!, _selectedFloor!);
                                             String rawSvg;
                                             try {
-                                              rawSvg = await rootBundle.loadString(svgPath);
+                                              rawSvg = await rootBundle.loadString(svgPath!);
                                             } catch (e) {
                                               rawSvg = _highlightedSvg;
                                             }
@@ -650,45 +794,52 @@ class _IndoorViewPageState extends State<IndoorViewPage> with SingleTickerProvid
                                               });
                                               _markerAnimationController?.reset();
                                               _markerAnimationController?.repeat(reverse: true);
-                                            }
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                // Convert building and floor IDs to names
-                                                String buildingName = _buildingCodes.entries.firstWhere(
-                                                  (e) => e.value == marker.building,
-                                                  orElse: () => MapEntry(marker.building, marker.building),
-                                                ).key;
-                                                String floorName = marker.floor;
-                                                // Try to get floor name from _floorCodes
-                                                final buildingFloors = _floorCodes[buildingName];
-                                                if (buildingFloors != null) {
-                                                  final found = buildingFloors.entries.firstWhere(
-                                                    (e) => e.value == marker.floor,
-                                                    orElse: () => MapEntry(marker.floor, marker.floor),
-                                                  );
-                                                  floorName = found.key;
+
+                                              // --- Zoom and center on the marker ---
+                                              if (_viewSize != Size.zero) {
+                                                // SVG size (hardcoded as in your code)
+                                                double svgWidth = 1024.0;
+                                                double svgHeight = 768.0;
+                                                double boxWidth = _viewSize.width;
+                                                double boxHeight = _viewSize.height;
+                                                // Calculate scale to fit SVG in box (as in your marker placement code)
+                                                double scale, offsetX = 0, offsetY = 0;
+                                                double aspectRatioSvg = svgWidth / svgHeight;
+                                                double aspectRatioBox = boxWidth / boxHeight;
+                                                if (aspectRatioBox > aspectRatioSvg) {
+                                                  scale = boxHeight / svgHeight;
+                                                  double usedWidth = svgWidth * scale;
+                                                  offsetX = (boxWidth - usedWidth) / 2;
+                                                  offsetY = 0;
+                                                } else {
+                                                  scale = boxWidth / svgWidth;
+                                                  double usedHeight = svgHeight * scale;
+                                                  offsetX = 0;
+                                                  offsetY = (boxHeight - usedHeight) / 2;
                                                 }
-                                                return AlertDialog(
-                                                  title: Text(marker.name),
-                                                  content: Column(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text('Type: [200~[0m[200~${marker.type}'),
-                                                      Text('Building: $buildingName'),
-                                                      Text('Floor: $floorName'),
-                                                    ],
-                                                  ),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () => Navigator.of(context).pop(),
-                                                      child: const Text('Close'),
-                                                    ),
-                                                  ],
+                                                // Marker position in widget coordinates
+                                                double markerWidgetX = marker.x * scale + offsetX;
+                                                double markerWidgetY = marker.y * scale + offsetY;
+                                                // Desired zoom
+                                                double desiredScale = 2.0;
+                                                // Center of the view
+                                                final Offset center = Offset(boxWidth / 2, boxHeight / 2);
+                                                // Calculate translation to center the marker
+                                                final Offset newPosition = Offset(
+                                                  center.dx - markerWidgetX * desiredScale,
+                                                  center.dy - markerWidgetY * desiredScale,
                                                 );
-                                              },
-                                            );
+                                                // Apply transformation
+                                                setState(() {
+                                                  _currentScale = desiredScale;
+                                                  _transformationController.value = Matrix4.identity()
+                                                    ..translate(newPosition.dx, newPosition.dy)
+                                                    ..scale(desiredScale);
+                                                });
+                                              }
+                                              // --- End zoom and center ---
+                                            }
+                                            _showMarkerDetails(marker);
                                           },
                                           child: Tooltip(
                                             message: marker.name,
@@ -874,6 +1025,65 @@ class _IndoorViewPageState extends State<IndoorViewPage> with SingleTickerProvid
           Icon(innerIcon, color: innerColor, size: 4),
         ],
       ),
+    );
+  }
+
+  void _showMarkerDetails(Marker marker) {
+    // Convert building and floor IDs to names
+    String buildingName = _buildingCodes.entries.firstWhere(
+      (e) => e.value == marker.building,
+      orElse: () => MapEntry(marker.building, marker.building),
+    ).key;
+    String floorName = marker.floor;
+    // Try to get floor name from _floorCodes
+    final buildingFloors = _floorCodes[buildingName];
+    if (buildingFloors != null) {
+      final found = buildingFloors.entries.firstWhere(
+        (e) => e.value == marker.floor,
+        orElse: () => MapEntry(marker.floor, marker.floor),
+      );
+      floorName = found.key;
+    }
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              Text(marker.name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              Text('Type: ${marker.type}'),
+              Text('Building: $buildingName'),
+              Text('Floor: $floorName'),
+              const SizedBox(height: 16),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Close'),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

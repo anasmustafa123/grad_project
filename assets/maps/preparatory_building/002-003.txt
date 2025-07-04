@@ -1,0 +1,125 @@
+name: roompr3 1
+building: 002
+floor: 003
+type: class
+x: 64
+y: 215
+
+name: roompr3 2
+building: 002
+floor: 003
+type: class
+x: 139
+y: 205
+
+name: roompr3 3
+building: 002
+floor: 003
+type: class
+x: 165
+y: 213
+
+name: roompr3 4
+building: 002
+floor: 003
+type: class
+x: 166
+y: 287
+
+name: roompr3 5
+building: 002
+floor: 003
+type: class
+x: 64
+y: 270
+
+name: roompr3 6
+building: 002
+floor: 003
+type: class
+x: 154
+y: 346
+
+name: roompr3 7
+building: 002
+floor: 003
+type: class
+x: 65
+y: 346
+
+name: roompr3 8
+building: 002
+floor: 003
+type: class
+x: 154
+y: 427
+
+name: roompr3 9
+building: 002
+floor: 003
+type: class
+x: 65
+y: 439
+
+name: roompr3 10
+building: 002
+floor: 003
+type: class
+x: 188
+y: 488
+
+name: roompr3 11
+building: 002
+floor: 003
+type: class
+x: 944
+y: 215
+
+name: roompr3 12
+building: 002
+floor: 003
+type: class
+x: 944
+y: 252
+
+name: roompr3 13
+building: 002
+floor: 003
+type: class
+x: 956
+y: 287
+
+name: roompr3 14
+building: 002
+floor: 003
+type: class
+x: 842
+y: 287
+
+name: roompr3 15
+building: 002
+floor: 003
+type: class
+x: 843
+y: 213
+
+name: roompr3 16
+building: 002
+floor: 003
+type: class
+x: 899
+y: 387
+
+name: roompr3 17
+building: 002
+floor: 003
+type: class
+x: 956
+y: 532
+
+name: roompr3 18
+building: 002
+floor: 003
+type: class
+x: 820
+y: 488

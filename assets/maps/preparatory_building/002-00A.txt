@@ -1,0 +1,223 @@
+name: roomprA 1
+building: 002
+floor: 00A
+type: class
+x: 74
+y: 174
+
+name: roomprA 2
+building: 002
+floor: 00A
+type: class
+x: 18
+y: 234
+
+name: roomprA 3
+building: 002
+floor: 00A
+type: class
+x: 27
+y: 269
+
+name: roomprA 4
+building: 002
+floor: 00A
+type: class
+x: 18
+y: 306
+
+name: roomprA 5
+building: 002
+floor: 00A
+type: class
+x: 30
+y: 395
+
+name: roomprA 6
+building: 002
+floor: 00A
+type: class
+x: 120
+y: 407
+
+name: roomprA 7
+building: 002
+floor: 00A
+type: class
+x: 18
+y: 553
+
+name: roomprA 8
+building: 002
+floor: 00A
+type: class
+x: 75
+y: 639
+
+name: roomprA 9
+building: 002
+floor: 00A
+type: class
+x: 155
+y: 508
+
+name: roomprA 10
+building: 002
+floor: 00A
+type: class
+x: 284
+y: 568
+
+name: roomprA 11
+building: 002
+floor: 00A
+type: class
+x: 681
+y: 586
+
+name: roomprA 12
+building: 002
+floor: 00A
+type: class
+x: 865
+y: 631
+
+name: roomprA 13
+building: 002
+floor: 00A
+type: class
+x: 922
+y: 552
+
+name: roomprA 14
+building: 002
+floor: 00A
+type: class
+x: 910
+y: 498
+
+name: roomprA 15
+building: 002
+floor: 00A
+type: class
+x: 910
+y: 473
+
+name: roomprA 16
+building: 002
+floor: 00A
+type: class
+x: 910
+y: 447
+
+name: roomprA 17
+building: 002
+floor: 00A
+type: class
+x: 910
+y: 420
+
+name: roomprA 18
+building: 002
+floor: 00A
+type: class
+x: 910
+y: 393
+
+name: roomprA 19
+building: 002
+floor: 00A
+type: class
+x: 910
+y: 368
+
+name: roomprA 20
+building: 002
+floor: 00A
+type: class
+x: 910
+y: 340
+
+name: roomprA 21
+building: 002
+floor: 00A
+type: class
+x: 921
+y: 308
+
+name: roomprA 22
+building: 002
+floor: 00A
+type: class
+x: 901
+y: 271
+
+name: roomprA 23
+building: 002
+floor: 00A
+type: class
+x: 922
+y: 236
+
+name: roomprA 24
+building: 002
+floor: 00A
+type: class
+x: 866
+y: 183
+
+name: roomprA 25
+building: 002
+floor: 00A
+type: class
+x: 809
+y: 234
+
+name: roomprA 26
+building: 002
+floor: 00A
+type: class
+x: 809
+y: 308
+
+name: roomprA 27
+building: 002
+floor: 00A
+type: class
+x: 820
+y: 354
+
+name: roomprA 28
+building: 002
+floor: 00A
+type: class
+x: 821
+y: 434
+
+name: roomprA 29
+building: 002
+floor: 00A
+type: class
+x: 832
+y: 500
+
+name: roomprA 30
+building: 002
+floor: 00A
+type: class
+x: 801
+y: 509
+
+name: roomprA 31
+building: 002
+floor: 00A
+type: class
+x: 818
+y: 592
+
+name: roomprA 32
+building: 002
+floor: 00A
+type: class
+x: 583
+y: 411

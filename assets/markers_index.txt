@@ -1,27 +1,25 @@
-002-000-room 1
-002-000-room 2
-002-000-room 3
-002-000-room 4
-002-000-room 5
-002-000-room 6
-002-000-room 7
-002-000-room 8
-002-000-room 9
-002-000-room 10
-002-000-room 11
-002-000-room 12
-002-000-room 13
-002-000-room 14
-002-000-room 15
-002-000-room 16
-002-000-room 17
-002-000-room 18
-002-000-room 19
-002-000-room 20
-002-000-room 21
-002-000-room 22
-002-000-room 23
-002-000-room 24
+002-000-computer unit engineering chemistry department
+002-000-head of the university guard
+002-000-prof dr Mohamed eltarablos
+002-000-prof dr fouad rizk allah prof dr Nashat baktr
+002-000-prof dr Mohamed shalaby prof dr galal kobrosy prof dr faroq elmorany
+002-000-prof dr Yousef botros prof dr mina abd elmalek
+002-000-head of mathematics and engineering physics
+002-000-secretary of mathematics and engineering physics
+002-000-workers preparatory building 03
+002-000-prof dr maged nageb prof dr Samir farid prof dr ahmed tawfek
+002-000-prof dr Fatma Mustafa prof dr refat elatar
+002-000-prof dr helmy safwat prof dr tharwat hana prof dr Mohamed husien eid
+002-000-prof dr Mohamed naaem anwar prof dr Mohamed elatar prof dr Mohamed elkarim abo elhasan prof dr husien tolba
+002-000-tutors room preparatory building 01
+002-000-workers preparatory building 02
+002-000-prof dr Mohamed kandel prof dr hassan farag prof dr ahmed zatot
+002-000-prof dr Mohamed safwat
+002-000-prof dr Fouad Nasr
+002-000-L4
+002-000-prof dr ahmed shawky mohamed
+002-000-chemistry lab second year
+002-000-L5
 002-000-room 25
 002-000-room 26
 002-000-room 27
@@ -33,4 +31,15 @@
 002-000-room 33
 002-000-room 34
 002-000-room 35
-002-000-room 36 
+002-000-room 36
+002-000-prof dr mona naaem
+002-000-prof dr Mohamed salah eldin
+002-000-L2
+002-000-bathroom preparatory 01
+002-000-prof dr bahaa eldin
+002-000-industrial chemistry lab prof dr Mahmoud omar
+002-000-workers preparatory building 01
+002-000-bathroom preparatory 02
+002-000-helper preparatory 01
+002-000-storage preparatory 01
+002-000-bathroom preparatory 03
